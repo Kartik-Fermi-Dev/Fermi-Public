@@ -16,6 +16,8 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
   const [isTabsSticky, setIsTabsSticky] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const scrollToTop = () => {
@@ -79,12 +81,16 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      // Don't update activeTab if we're programmatically scrolling
+      if (isScrollingRef.current) {
+        console.log('⏸️ Observer paused - manual scroll in progress');
+        return;
+      }
+      
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          console.log('👁️ Observer detected section:', entry.target.id);
           setActiveTab(entry.target.id);
-          // Fade in section during scroll
-          const section = entry.target as HTMLElement;
-          section.style.opacity = '1';
         }
       });
     };
@@ -95,8 +101,9 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
     sections.forEach(section => {
       const element = document.getElementById(section);
       if (element) {
-        // Initial opacity for fade-in effect
-        element.style.transition = 'opacity 0.6s ease-out';
+        // Make all sections visible by default
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
         observer.observe(element);
       }
     });
@@ -132,22 +139,46 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
   }, []);
 
   const scrollToSection = (id: string) => {
+    console.log('🔵 CLICKED TAB:', id);
+    
+    // Immediately set active tab
+    setActiveTab(id);
+    
+    // Pause the observer
+    isScrollingRef.current = true;
+    
+    // Ensure body can scroll
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    
+    // Find the element
     const element = document.getElementById(id);
-    if (element) {
-      // Update active tab immediately for visual feedback
-      setActiveTab(id);
-      
-      const headerOffset = 140;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    } else {
-      console.error(`Element with id "${id}" not found`);
+    
+    if (!element) {
+      console.error('❌ ELEMENT NOT FOUND FOR ID:', id);
+      isScrollingRef.current = false;
+      return;
     }
+    
+    console.log('✅ FOUND ELEMENT:', element);
+    console.log('📍 Element offset from top:', element.getBoundingClientRect().top);
+    
+    // Use scrollIntoView with block: 'start' to scroll element to top
+    element.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+    
+    console.log('🚀 SCROLL INITIATED');
+    
+    // Re-enable observer after scroll completes
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = setTimeout(() => {
+      isScrollingRef.current = false;
+      console.log('▶️ Observer re-enabled');
+    }, 1500);
   };
 
   const tabs = [
@@ -655,7 +686,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* VIDEO SECTION */}
-      <section className="bg-[#F5F2ED] py-24">
+      <section className="bg-[#F5F2ED] py-24" data-scroll-section>
         <div className="container-custom p-[0px]">
           <motion.div 
             className="max-w-5xl mx-auto space-y-8"
@@ -708,8 +739,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
                   onLoadStart={() => console.log('Video loading started')}
                   onLoadedData={() => console.log('Video data loaded successfully')}
                 >
-                  <source src="/Fermi dev demo video (1).mp4" type="video/mp4" />
-                  <source src="/Fermi%20dev%20demo%20video%20%281%29.mp4" type="video/mp4" />
+                  <source src="/fermi-demo.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
@@ -719,60 +749,45 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* Feature Tabs - Sticky Navigation */}
-      <motion.div 
+      <div 
         className={`sticky top-16 md:top-20 z-40 bg-white border-b border-gray-200 transition-shadow duration-300 ${isTabsSticky ? 'shadow-md' : ''}`} 
         ref={tabsRef}
-        initial={false}
-        animate={isTabsSticky ? { y: 0, opacity: 1 } : { y: -4, opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <div className="container-custom">
           <nav className="flex gap-8 overflow-x-auto py-4 scrollbar-hide">
             {tabs.map((tab) => (
-              <motion.button
+              <button
                 key={tab.id}
-                onClick={() => {
-                  const element = document.getElementById(tab.id);
-                  if (element) {
-                    const headerOffset = 140;
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: 'smooth'
-                    });
-                    
-                    setActiveTab(tab.id);
-                  }
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('🟢 TAB BUTTON CLICKED:', tab.id);
+                  scrollToSection(tab.id);
                 }}
-                className={`text-[20px] whitespace-nowrap transition-all duration-300 pb-2 relative px-6 ${
+                className={`text-[20px] whitespace-nowrap transition-all duration-300 pb-2 relative px-6 cursor-pointer border-none bg-transparent outline-none ${ 
                   activeTab === tab.id
                     ? 'text-[#0A2F51]'
                     : 'text-[#6B6D71] hover:text-[#1A1A1A]'
                 }`}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
               >
                 {tab.label}
                 {/* Animated underline */}
-                <motion.div
+                <div
                   className="absolute bottom-0 left-6 right-6 h-0.5 bg-[#0A2F51]"
-                  initial={false}
-                  animate={{
-                    scaleX: activeTab === tab.id ? 1 : 0,
-                    opacity: activeTab === tab.id ? 1 : 0
+                  style={{
+                    transform: activeTab === tab.id ? 'scaleX(1)' : 'scaleX(0)',
+                    opacity: activeTab === tab.id ? 1 : 0,
+                    transition: 'transform 0.3s ease-out, opacity 0.3s ease-out'
                   }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
                 />
-              </motion.button>
+              </button>
             ))}
           </nav>
         </div>
-      </motion.div>
+      </div>
 
       {/* SECTION 2 — SELF-ONBOARDING */}
-      <section id="onboarding" className="container-custom py-24">
+      <section id="onboarding" className="container-custom py-24 scroll-mt-32 md:scroll-mt-40" data-scroll-section>
         <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[500px]">
           {/* Left Column */}
           <motion.div 
@@ -844,7 +859,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 3 — THE BRAIN */}
-      <section id="brain" className="container-custom py-24">
+      <section id="brain" className="container-custom py-24 scroll-mt-32 md:scroll-mt-40" data-scroll-section>
         <div className="max-w-6xl mx-auto min-h-[650px] flex flex-col">
           {/* Header */}
           <motion.div 
@@ -904,7 +919,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 4 — THE CONDUCTOR */}
-      <section id="conductor" className="bg-[#0D0D0D] text-white py-24 min-h-[600px]">
+      <section id="conductor" className="bg-[#0D0D0D] text-white py-24 min-h-[600px] scroll-mt-32 md:scroll-mt-40" data-scroll-section>
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side */}
@@ -976,7 +991,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 5 — AI AGENTS */}
-      <section id="agents" className="container-custom py-24 min-h-[600px]">
+      <section id="agents" className="container-custom py-24 min-h-[600px] scroll-mt-32 md:scroll-mt-40" data-scroll-section>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Mini Panel */}
           <motion.div
@@ -1044,7 +1059,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 6 — UNIFIED WORKSPACE */}
-      <section id="workspace" className="bg-[#F5F2ED] py-24 border-y border-gray-200 min-h-[500px]">
+      <section id="workspace" className="bg-[#F5F2ED] py-24 border-y border-gray-200 min-h-[500px] scroll-mt-32 md:scroll-mt-40" data-scroll-section>
         <div className="container-custom">
           <motion.div 
             className="max-w-4xl mx-auto text-center space-y-8"
@@ -1086,7 +1101,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 7 — ENTERPRISE READY */}
-      <section className="container-custom py-24 min-h-[600px]">
+      <section className="container-custom py-24 min-h-[600px]" data-scroll-section>
         <motion.div 
           className="max-w-5xl mx-auto"
           initial={{ opacity: 0, y: 30 }}

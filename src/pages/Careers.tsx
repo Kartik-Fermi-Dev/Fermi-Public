@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { ArrowRight, MapPin, Briefcase, Clock } from 'lucide-react';
 import { useEffect } from 'react';
+import { SEO } from '../components/SEO';
 
 type Page = 'home' | 'product' | 'brain' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers';
 
@@ -91,10 +91,10 @@ const benefits = [
 export default function CareersPage({ onNavigate }: CareersPageProps) {
   return (
     <>
-      <Helmet>
-        <title>Careers | Fermi Dev - Join Our Team</title>
-        <meta name="description" content="Join Fermi Development, Inc. and help build the future of AI call analytics. Explore open positions and learn about our culture." />
-      </Helmet>
+      <SEO
+        title="Careers | Fermi Dev - Join Our Team"
+        description="Join Fermi Development, Inc. and help build the future of AI call analytics. Explore open positions and learn about our culture."
+      />
 
       <div className="bg-white">
         {/* Hero Section */}
@@ -235,53 +235,6 @@ export default function CareersPage({ onNavigate }: CareersPageProps) {
                 Explore opportunities to join our team. Can't find the right role? Send us your resume anyway.
               </p>
             </motion.div>
-
-            <div className="max-w-5xl mx-auto space-y-6">
-              {positions.map((position, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="p-6 bg-white border border-gray-200 rounded-2xl hover:shadow-lg transition-all group"
-                >
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div className="flex-1">
-                      <h3 className="mb-2 group-hover:text-[#FFB800] transition-colors">
-                        {position.title}
-                      </h3>
-                      <div className="flex flex-wrap gap-4 mb-3">
-                        <div className="flex items-center gap-2 text-[#6B6D71]">
-                          <Briefcase className="w-4 h-4" />
-                          <span className="text-sm">{position.department}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-[#6B6D71]">
-                          <MapPin className="w-4 h-4" />
-                          <span className="text-sm">{position.location}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-[#6B6D71]">
-                          <Clock className="w-4 h-4" />
-                          <span className="text-sm">{position.type}</span>
-                        </div>
-                      </div>
-                      <p className="text-[#6B6D71]">
-                        {position.description}
-                      </p>
-                    </div>
-                    <motion.button
-                      onClick={() => onNavigate('contact')}
-                      className="px-6 py-3 bg-[#1A1A1A] text-white rounded-lg hover:bg-[#FFB800] transition-colors inline-flex items-center gap-2 whitespace-nowrap"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Apply Now
-                      <ArrowRight className="w-4 h-4" />
-                    </motion.button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
 
             {/* General Application */}
             <motion.div

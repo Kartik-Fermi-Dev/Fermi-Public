@@ -20,7 +20,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const phrases = [
     "understands your business",
     "runs your operations",
-    "works for you"
+    "works with your team"
   ];
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
@@ -70,7 +70,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         keywords={["AI call analytics", "AI agents", "operational intelligence", "call tracking", "business automation"]}
       />
       {/* Hero Section */}
-      <section className="container-custom pt-8 md:pt-12 pb-4 md:pb-6 w-full min-h-[500px] md:min-h-[600px] p-[30px]" data-scroll-section>
+      <section className="container-custom pt-8 md:pt-12 pb-0 w-full min-h-[500px] md:min-h-[600px] p-[30px]" data-scroll-section>
         <div className="max-w-5xl">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -108,7 +108,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* The Brain Section */}
-      <section className="container-custom py-20">
+      <section className="container-custom pt-0 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
