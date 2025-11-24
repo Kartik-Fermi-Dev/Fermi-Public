@@ -549,8 +549,8 @@
     top: calc(var(--spacing) * 6);
   }
 
-  .top-16 {
-    top: calc(var(--spacing) * 16);
+  .top-20 {
+    top: calc(var(--spacing) * 20);
   }
 
   .top-24 {
@@ -1184,8 +1184,8 @@
     cursor: pointer;
   }
 
-  .scroll-mt-32 {
-    scroll-margin-top: calc(var(--spacing) * 32);
+  .scroll-mt-40 {
+    scroll-margin-top: calc(var(--spacing) * 40);
   }
 
   .list-decimal {
@@ -2823,8 +2823,8 @@
   }
 
   @media (width >= 48rem) {
-    .md\:top-20 {
-      top: calc(var(--spacing) * 20);
+    .md\:top-24 {
+      top: calc(var(--spacing) * 24);
     }
   }
 
@@ -2883,8 +2883,8 @@
   }
 
   @media (width >= 48rem) {
-    .md\:scroll-mt-40 {
-      scroll-margin-top: calc(var(--spacing) * 40);
+    .md\:scroll-mt-48 {
+      scroll-margin-top: calc(var(--spacing) * 48);
     }
   }
 

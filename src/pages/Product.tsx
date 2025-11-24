@@ -750,7 +750,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
 
       {/* Feature Tabs - Sticky Navigation */}
       <div 
-        className={`sticky top-16 md:top-20 z-40 bg-white border-b border-gray-200 transition-shadow duration-300 ${isTabsSticky ? 'shadow-md' : ''}`} 
+        className={`sticky top-20 md:top-24 z-40 bg-white border-b border-gray-200 transition-shadow duration-300 ${isTabsSticky ? 'shadow-md' : ''}`} 
         ref={tabsRef}
       >
         <div className="container-custom">
@@ -787,7 +787,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </div>
 
       {/* SECTION 2 — SELF-ONBOARDING */}
-      <section id="onboarding" className="container-custom py-24 scroll-mt-32 md:scroll-mt-40" data-scroll-section>
+      <section id="onboarding" className="container-custom py-24 scroll-mt-40 md:scroll-mt-48" data-scroll-section>
         <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[500px]">
           {/* Left Column */}
           <motion.div 
@@ -859,7 +859,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 3 — THE BRAIN */}
-      <section id="brain" className="container-custom py-24 scroll-mt-32 md:scroll-mt-40" data-scroll-section>
+      <section id="brain" className="container-custom py-24 scroll-mt-40 md:scroll-mt-48" data-scroll-section>
         <div className="max-w-6xl mx-auto min-h-[650px] flex flex-col">
           {/* Header */}
           <motion.div 
@@ -919,7 +919,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 4 — THE CONDUCTOR */}
-      <section id="conductor" className="bg-[#0D0D0D] text-white py-24 min-h-[600px] scroll-mt-32 md:scroll-mt-40" data-scroll-section>
+      <section id="conductor" className="bg-[#0D0D0D] text-white py-24 min-h-[600px] scroll-mt-40 md:scroll-mt-48" data-scroll-section>
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side */}
@@ -991,7 +991,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 5 — AI AGENTS */}
-      <section id="agents" className="container-custom py-24 min-h-[600px] scroll-mt-32 md:scroll-mt-40" data-scroll-section>
+      <section id="agents" className="container-custom py-24 min-h-[600px] scroll-mt-40 md:scroll-mt-48" data-scroll-section>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Mini Panel */}
           <motion.div
@@ -1059,7 +1059,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
       </section>
 
       {/* SECTION 6 — UNIFIED WORKSPACE */}
-      <section id="workspace" className="bg-[#F5F2ED] py-24 border-y border-gray-200 min-h-[500px] scroll-mt-32 md:scroll-mt-40" data-scroll-section>
+      <section id="workspace" className="bg-[#F5F2ED] py-24 border-y border-gray-200 min-h-[500px] scroll-mt-40 md:scroll-mt-48" data-scroll-section>
         <div className="container-custom">
           <motion.div 
             className="max-w-4xl mx-auto text-center space-y-8"
