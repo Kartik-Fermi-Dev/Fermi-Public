@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import { SEO } from '../components/SEO';
 import AIChatDemo from '../components/AIChatDemo';
 import NeuralNetwork from '../components/NeuralNetwork';
+import BackedByAntler from '../components/BackedByAntler';
 import { motion } from 'motion/react';
 import { initSectionAnimations } from '../utils/smoothScroll';
+import { usePageTracking } from '../hooks/usePageTracking';
 
 type Page = 'home' | 'product' | 'brain' | 'blog' | 'about' | 'contact';
 
@@ -14,6 +16,8 @@ interface HomePageProps {
 }
 
 export default function HomePage({ onNavigate }: HomePageProps) {
+  usePageTracking('home', 'Fermi Dev - AI Operational Brain for Modern Enterprises');
+  
   const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
   
   // Typewriter animation state
@@ -65,13 +69,23 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="bg-white">
       <SEO 
-        title="AI Call Analytics & Intelligence Platform"
-        description="Fermi Dev is the AI-ready data stack for modern teams. Self-onboards, understands your operations, and deploys AI agents that do the work."
-        keywords={["AI call analytics", "AI agents", "operational intelligence", "call tracking", "business automation"]}
+        title="AI Operational Brain for Modern Enterprises"
+        description="Fermi Dev is the AI Operational Brain for Modern Enterprises. Connect your systems, build dynamic models, and automate business processes and operations with intelligent agents."
+        keywords={["AI operational brain", "enterprise automation", "business process automation", "operational intelligence", "AI agents"]}
       />
       {/* Hero Section */}
-      <section className="container-custom pt-8 md:pt-12 pb-0 w-full min-h-[500px] md:min-h-[600px] p-[30px]" data-scroll-section>
+      <section className="container-custom md:pt-12 w-full min-h-[500px] md:min-h-[600px] p-[30px] mt-[0px] mr-[0px] mb-[90px] ml-[0px]" data-scroll-section>
         <div className="max-w-5xl">
+          {/* Backed by Antler Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <BackedByAntler />
+          </motion.div>
+
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,7 +100,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-xl md:text-2xl text-[#6B6D71] mb-10 max-w-3xl leading-relaxed"
           >
-            Fermi builds a dynamic model of your business, turning scattered tools and processes into one coherent system.
+            Fermi acts as the AI Operational Brain for your enterprise. We connect your scattered tools, build a unified business model, and automate complex operations.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

@@ -12,16 +12,88 @@ import ContactPage from './pages/Contact';
 import PrivacyPolicyPage from './pages/PrivacyPolicy';
 import TermsOfServicePage from './pages/TermsOfService';
 import CareersPage from './pages/Careers';
+import SitemapPage from './pages/Sitemap';
 
-type Page = 'home' | 'product' | 'brain' | 'blog' | 'blog-post' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers';
+// Extend window interface for Google Analytics
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+    dataLayer: Record<string, any>[];
+  }
+}
+
+type Page = 'home' | 'product' | 'brain' | 'blog' | 'blog-post' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers' | 'sitemap';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [currentPostSlug, setCurrentPostSlug] = useState<string>('');
+  const getInitialPage = (): Page => {
+    if (typeof window === 'undefined') return 'home';
+    const path = window.location.pathname;
+    
+    // Remove trailing slash if present (except for root)
+    const cleanPath = path === '/' ? '/' : path.replace(/\/$/, '');
+    
+    switch (cleanPath) {
+      case '/': return 'home';
+      case '/product': return 'product';
+      case '/brain': return 'brain';
+      case '/blog': return 'blog';
+      case '/about': return 'about';
+      case '/contact': return 'contact';
+      case '/privacy': return 'privacy';
+      case '/terms': return 'terms';
+      case '/careers': return 'careers';
+      case '/sitemap': return 'sitemap';
+      default:
+        // Check for blog posts
+        if (cleanPath.startsWith('/blog/')) {
+          return 'blog-post';
+        }
+        return 'home'; // Fallback to home (or could be 404 page)
+    }
+  };
+
+  const getInitialPostSlug = (): string => {
+    if (typeof window === 'undefined') return '';
+    const path = window.location.pathname;
+    if (path.startsWith('/blog/') && path.length > 6) {
+      return path.slice(6);
+    }
+    return '';
+  };
+
+  const [currentPage, setCurrentPage] = useState<Page>(getInitialPage);
+  const [currentPostSlug, setCurrentPostSlug] = useState<string>(getInitialPostSlug);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [pendingPage, setPendingPage] = useState<Page | null>(null);
   const [pendingPostSlug, setPendingPostSlug] = useState<string>('');
   const isFirstRender = useRef(true);
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const newPage = getInitialPage();
+      const newSlug = getInitialPostSlug();
+      setCurrentPage(newPage);
+      setCurrentPostSlug(newSlug);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Handle page view tracking
+  useEffect(() => {
+    if (typeof window.gtag === 'function') {
+      const pagePath = currentPage === 'home' ? '/' : `/${currentPage}`;
+      const pageTitle = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
+      
+      window.gtag('event', 'page_view', {
+        page_title: pageTitle,
+        page_path: pagePath,
+        page_location: window.location.origin + pagePath
+      });
+    }
+  }, [currentPage, currentPostSlug]);
 
   // Handle page transition animation
   useEffect(() => {
@@ -66,11 +138,21 @@ export default function App() {
   }, [pendingPage, pendingPostSlug]);
 
   const navigateToPost = (slug: string) => {
+    // Update URL
+    const url = `/blog/${slug}`;
+    window.history.pushState({}, '', url);
+    
     setPendingPostSlug(slug);
     setPendingPage('blog-post');
   };
 
   const navigateTo = (page: Page) => {
+    // Update URL
+    const url = page === 'home' ? '/' : `/${page}`;
+    if (window.location.pathname !== url) {
+      window.history.pushState({}, '', url);
+    }
+
     // Skip transition on first render or if navigating to same page
     if (isFirstRender.current || page === currentPage) {
       isFirstRender.current = false;
@@ -103,6 +185,8 @@ export default function App() {
         return <TermsOfServicePage onNavigate={navigateTo} />;
       case 'careers':
         return <CareersPage onNavigate={navigateTo} />;
+      case 'sitemap':
+        return <SitemapPage onNavigate={navigateTo} onNavigateToPost={navigateToPost} />;
       default:
         return <HomePage onNavigate={navigateTo} />;
     }

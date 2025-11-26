@@ -1,8 +1,21 @@
 import { Button } from "./ui/button";
 import { Play, BarChart3, Brain, Zap } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { trackCTAClick, trackDemoRequest } from "../utils/analytics";
 
 export function Hero() {
+  const handleStartTrial = () => {
+    trackCTAClick('Start Free Trial', 'Hero Section');
+    trackDemoRequest('hero_cta');
+    // Add your navigation or modal logic here
+  };
+
+  const handleWatchDemo = () => {
+    trackCTAClick('Watch Demo', 'Hero Section');
+    trackDemoRequest('hero_demo');
+    // Add your demo video logic here
+  };
+
   return (
     <section className="py-20 lg:py-32 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto max-w-6xl px-4">
@@ -25,11 +38,11 @@ export function Hero() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 py-6">
+            <Button size="lg" className="text-lg px-8 py-6" onClick={handleStartTrial}>
               <Zap className="w-5 h-5 mr-2" />
               Start Free Trial
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6">
+            <Button variant="outline" size="lg" className="text-lg px-8 py-6" onClick={handleWatchDemo}>
               <Play className="w-5 h-5 mr-2" />
               Watch Demo
             </Button>

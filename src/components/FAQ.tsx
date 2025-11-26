@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { Button } from "./ui/button";
+import { trackFAQClick, trackCTAClick } from "../utils/analytics";
 
 const faqs = [
   {
@@ -57,7 +58,7 @@ export function FAQ() {
         <Accordion type="single" collapsible className="space-y-4">
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`} className="border border-border/50 rounded-lg px-6">
-              <AccordionTrigger className="text-left hover:no-underline">
+              <AccordionTrigger className="text-left hover:no-underline" onClick={() => trackFAQClick(faq.question)}>
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
@@ -69,7 +70,7 @@ export function FAQ() {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground mb-4">Still have questions?</p>
-          <Button variant="outline">Contact Support</Button>
+          <Button variant="outline" onClick={() => trackCTAClick("Contact Support", "FAQ Section")}>Contact Support</Button>
         </div>
       </div>
     </section>

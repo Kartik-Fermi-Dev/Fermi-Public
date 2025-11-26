@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useInView } from 'motion/react';
 
 // Inline SVG icons to avoid lucide-react runtime errors
 const SparklesIcon = () => (
@@ -26,7 +27,12 @@ interface Message {
 }
 
 export default function AIChatDemo() {
-  const [messages, setMessages] = useState<Message[]>([
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const [animationKey, setAnimationKey] = useState(0);
+
+  // Initial message to always show
+  const initialMessages: Message[] = [
     {
       id: 1,
       text: "Can you analyze our Q4 sales performance?",
@@ -45,34 +51,56 @@ export default function AIChatDemo() {
       sender: 'user',
       timestamp: '2:35 PM'
     }
-  ]);
+  ];
 
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [isTyping, setIsTyping] = useState(false);
-  const [activeMessage, setActiveMessage] = useState(2);
+  const [activeMessage, setActiveMessage] = useState<number | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Reset animation when component comes into view
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTyping(true);
-      setTimeout(() => {
-        setIsTyping(false);
-        setActiveMessage(prev => (prev === 2 ? 4 : 2));
+    if (isInView) {
+      // Reset everything
+      setMessages(initialMessages);
+      setIsTyping(false);
+      setActiveMessage(null);
+      setAnimationKey(prev => prev + 1);
+
+      // Clear any existing timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Start the animation sequence
+      // Wait 1.5 seconds, then show typing indicator
+      timeoutRef.current = setTimeout(() => {
+        setIsTyping(true);
         
-        if (messages.length === 3) {
+        // After 3 seconds of typing, show the response
+        timeoutRef.current = setTimeout(() => {
+          setIsTyping(false);
           setMessages(prev => [...prev, {
             id: 4,
             text: "Current churn rate is 3.2%, down from 4.1% last quarter. Retention improved significantly after implementing the new onboarding flow.",
             sender: 'ai',
             timestamp: '2:35 PM'
           }]);
-        }
-      }, 2000);
-    }, 6000);
+          setActiveMessage(2);
+        }, 3000);
+      }, 1500);
+    }
 
-    return () => clearInterval(interval);
-  }, [messages.length]);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isInView]);
 
   return (
     <div 
+      ref={ref}
       className="bg-white rounded-lg border border-gray-200 shadow-lg overflow-hidden h-full flex flex-col animate-fade-in hover:shadow-xl transition-all duration-500"
       style={{ animationDelay: '0.5s' }}
     >

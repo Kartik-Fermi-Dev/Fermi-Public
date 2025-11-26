@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  publicDir: 'public', // Ensure static assets are served from public folder
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: [

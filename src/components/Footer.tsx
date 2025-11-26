@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { trackSocialClick, trackNavigation } from "../utils/analytics";
 
 export function Footer() {
   return (
@@ -18,10 +19,10 @@ export function Footer() {
               Transform your customer conversations with AI-powered call analytics and real-time insights.
             </p>
             <div className="flex space-x-4">
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
+              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10" onClick={() => trackSocialClick('linkedin', 'footer')}>
                 <Linkedin className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
+              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10" onClick={() => trackSocialClick('twitter', 'footer')}>
                 <Twitter className="w-4 h-4" />
               </Button>
             </div>
@@ -30,22 +31,22 @@ export function Footer() {
           <div className="space-y-4">
             <h3>Product</h3>
             <div className="space-y-2 text-primary-foreground/80">
-              <div><a href="#features" className="hover:text-primary-foreground transition-colors">Features</a></div>
-              <div><a href="#pricing" className="hover:text-primary-foreground transition-colors">Pricing</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">Integrations</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">API</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">Security</a></div>
+              <div><a href="#features" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('features', 'footer')}>Features</a></div>
+              <div><a href="#pricing" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('pricing', 'footer')}>Pricing</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('integrations', 'footer')}>Integrations</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('api', 'footer')}>API</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('security', 'footer')}>Security</a></div>
             </div>
           </div>
 
           <div className="space-y-4">
             <h3>Company</h3>
             <div className="space-y-2 text-primary-foreground/80">
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">About</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">Blog</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">Careers</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">Press</a></div>
-              <div><a href="#" className="hover:text-primary-foreground transition-colors">Partners</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('about', 'footer')}>About</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('blog', 'footer')}>Blog</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('careers', 'footer')}>Careers</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('press', 'footer')}>Press</a></div>
+              <div><a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('partners', 'footer')}>Partners</a></div>
             </div>
           </div>
 
@@ -75,9 +76,9 @@ export function Footer() {
             © 2025 CallAnalytics. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm text-primary-foreground/80">
-            <a href="#" className="hover:text-primary-foreground transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">Cookie Policy</a>
+            <a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('privacy-policy', 'footer')}>Privacy Policy</a>
+            <a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('terms-of-service', 'footer')}>Terms of Service</a>
+            <a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('cookie-policy', 'footer')}>Cookie Policy</a>
           </div>
         </div>
       </div>

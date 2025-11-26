@@ -1,7 +1,9 @@
 {
   "name": "fermi-dev",
+  "version": "0.1.0",
+  "description": "Fermi Dev - The AI Operational Brain for Modern Enterprises. Optimize call analytics, conversion tracking, and operational insights.",
+  "author": "Fermi Dev",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

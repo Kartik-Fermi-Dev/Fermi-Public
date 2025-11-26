@@ -2,6 +2,8 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Check, Zap } from "lucide-react";
+import { trackPricingView, trackPricingSelect, trackCTAClick } from "../utils/analytics";
+import { useEffect } from "react";
 
 const plans = [
   {
@@ -59,6 +61,10 @@ const plans = [
 ];
 
 export function Pricing() {
+  useEffect(() => {
+    trackPricingView();
+  }, []);
+
   return (
     <section id="pricing" className="py-20 lg:py-32 bg-muted/30">
       <div className="container mx-auto max-w-6xl px-4">
@@ -107,6 +113,10 @@ export function Pricing() {
                   className="w-full" 
                   variant={plan.isPopular ? "default" : "outline"}
                   size="lg"
+                  onClick={() => {
+                    trackPricingSelect(plan.name);
+                    trackCTAClick(plan.name);
+                  }}
                 >
                   {plan.price === "Custom" ? "Contact Sales" : "Start Free Trial"}
                 </Button>

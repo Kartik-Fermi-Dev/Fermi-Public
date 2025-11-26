@@ -22,7 +22,7 @@ const TwitterIcon = () => (
   </svg>
 );
 
-type Page = 'home' | 'product' | 'brain' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers';
+type Page = 'home' | 'product' | 'brain' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers' | 'sitemap';
 
 interface FermiFooterProps {
   onNavigate: (page: Page) => void;
@@ -39,7 +39,7 @@ export default function FermiFooter({ onNavigate }: FermiFooterProps) {
               <ColorLogoNoBackground />
             </div>
             <p className="text-[#6B6D71] leading-relaxed text-[16px]">
-              The AI data factory for modern teams.
+              AI Operational Brain for Modern Enterprises
             </p>
           </div>
 
@@ -100,7 +100,8 @@ export default function FermiFooter({ onNavigate }: FermiFooterProps) {
                 { label: 'Documentation', page: null },
                 { label: 'API Reference', page: null },
                 { label: 'Privacy Policy', page: 'privacy' as Page },
-                { label: 'Terms of Service', page: 'terms' as Page }
+                { label: 'Terms of Service', page: 'terms' as Page },
+                { label: 'Sitemap', page: 'sitemap' as Page }
               ].map((link, i) => (
                 <li 
                   key={i}

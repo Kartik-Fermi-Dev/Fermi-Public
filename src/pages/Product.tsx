@@ -193,7 +193,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
     <div className="bg-white">
       <SEO 
         title="Product - Fermi Dev"
-        description="Fermi learns how your business operates, builds your operational brain, and powers AI agents that execute with clarity and precision."
+        description="The AI Operational Brain that connects your business data, builds intelligent models, and automates operations with precision."
         keywords={["AI platform", "operational intelligence", "AI agents", "business automation", "workflow orchestration"]}
       />
 
@@ -207,12 +207,12 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-[64px] leading-tight text-[#1A1A1A]">
+            <h1 className="text-[48px] leading-tight text-[#1A1A1A]">
               Understand.<br />
               Coordinate.<br />
               Execute.
             </h1>
-            <p className="text-[22px] text-[#6B6D71] leading-relaxed">
+            <p className="text-[14px] text-[#6B6D71] leading-relaxed">
               Fermi learns how your business operates, builds your operational brain, and powers AI agents that execute with clarity and precision.
             </p>
           </motion.div>
@@ -739,7 +739,7 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
                   onLoadStart={() => console.log('Video loading started')}
                   onLoadedData={() => console.log('Video data loaded successfully')}
                 >
-                  <source src="/fermi-demo.mp4" type="video/mp4" />
+                  <source src="https://www.dropbox.com/scl/fi/o8zgfucdwjrufjhpyji52/Fermi-Dev-Product-Overview.mp4?rlkey=c7ff1mzab2247ljrik9s4cw9f&st=umg4xmwf&raw=1" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
