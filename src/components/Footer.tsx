@@ -3,7 +3,29 @@ import { Separator } from "./ui/separator";
 import { Mail, Phone, MapPin, Linkedin, Twitter } from "lucide-react";
 import { trackSocialClick, trackNavigation } from "../utils/analytics";
 
-export function Footer() {
+type Page = 'home' | 'product' | 'brain' | 'blog' | 'blog-post' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers' | 'sitemap';
+
+interface FooterProps {
+  onNavigate?: (page: Page) => void;
+}
+
+export function Footer({ onNavigate }: FooterProps) {
+  const handlePrivacyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    trackNavigation('privacy-policy', 'footer');
+    if (onNavigate) {
+      onNavigate('privacy');
+    }
+  };
+
+  const handleTermsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    trackNavigation('terms-of-service', 'footer');
+    if (onNavigate) {
+      onNavigate('terms');
+    }
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto max-w-6xl px-4 py-16">
@@ -76,8 +98,8 @@ export function Footer() {
             © 2025 CallAnalytics. All rights reserved.
           </div>
           <div className="flex space-x-6 text-sm text-primary-foreground/80">
-            <a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('privacy-policy', 'footer')}>Privacy Policy</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('terms-of-service', 'footer')}>Terms of Service</a>
+            <a href="/privacy" className="hover:text-primary-foreground transition-colors" onClick={handlePrivacyClick}>Privacy Policy</a>
+            <a href="/terms" className="hover:text-primary-foreground transition-colors" onClick={handleTermsClick}>Terms of Service</a>
             <a href="#" className="hover:text-primary-foreground transition-colors" onClick={() => trackNavigation('cookie-policy', 'footer')}>Cookie Policy</a>
           </div>
         </div>

@@ -18,7 +18,7 @@ const XIcon = () => (
   </svg>
 );
 
-type Page = 'home' | 'product' | 'brain' | 'about';
+type Page = 'home' | 'product' | 'brain' | 'blog' | 'about';
 
 interface FermiHeaderProps {
   currentPage: Page | 'blog-post';
@@ -42,6 +42,7 @@ export default function FermiHeader({ currentPage, onNavigate }: FermiHeaderProp
     { label: 'Product', page: 'product' },
     { label: 'Brain', page: 'brain' },
     { label: 'About', page: 'about' },
+    { label: 'Blog', page: 'blog' },
   ];
 
   const isActive = (page: Page) => {

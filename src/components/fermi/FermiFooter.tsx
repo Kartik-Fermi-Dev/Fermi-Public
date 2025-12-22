@@ -108,12 +108,16 @@ export default function FermiFooter({ onNavigate }: FermiFooterProps) {
                   className="hover:translate-x-1 transition-transform"
                 >
                   {link.page ? (
-                    <button
-                      onClick={() => onNavigate(link.page)}
+                    <a
+                      href={`/${link.page}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onNavigate(link.page);
+                      }}
                       className="text-sm text-gray-600 hover:text-[#0A2F51] transition-colors text-[16px]"
                     >
                       {link.label}
-                    </button>
+                    </a>
                   ) : (
                     <a
                       href="#"

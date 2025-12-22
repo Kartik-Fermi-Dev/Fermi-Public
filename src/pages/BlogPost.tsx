@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, Tag, Share2, Twitter, Linkedin, Link2, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, Tag, Share2, Twitter, Linkedin, Link2, Calendar } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { SEO } from '../components/SEO';
 import type { BlogPostSlug } from './Blog';

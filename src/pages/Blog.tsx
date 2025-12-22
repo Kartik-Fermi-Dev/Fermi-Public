@@ -66,7 +66,7 @@ export default function BlogPage({ onNavigateToPost }: BlogPageProps) {
           <div className="inline-block bg-[#D4C7E8]/30 text-[#0A2F51] px-4 py-2 rounded-full text-xs mb-8 uppercase tracking-wider">
             Blog & Insights
           </div>
-          <h1 className="text-5xl md:text-7xl mb-8 tracking-tight text-[#1A1A1A] leading-tight">
+          <h1 className="md:text-7xl mb-8 tracking-tight text-[#1A1A1A] leading-tight text-[48px]">
             Intelligent<br />
             operations
           </h1>
@@ -127,7 +127,7 @@ export default function BlogPage({ onNavigateToPost }: BlogPageProps) {
       </section>
 
       {/* All Posts */}
-      <section className="container-custom py-32 bg-[#F5F2ED] -mt-32 pt-48 border-t border-gray-200">
+      <section className="container-custom py-32 bg-[#F5F2ED] mt-[20px] pt-48 border-t border-gray-200 mr-[0px] mb-[0px] ml-[0px]">
         <h2 className="text-3xl md:text-5xl mb-12 tracking-tight text-[#1A1A1A]">All Articles</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.slice(1).map((post) => (
