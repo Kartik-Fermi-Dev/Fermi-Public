@@ -1,11 +1,10 @@
-import { Target, Heart, Zap, Users, Linkedin } from 'lucide-react';
+import { Target, Zap, Users, Linkedin, Brain, Workflow } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { SEO } from '../components/SEO';
 import { motion } from 'motion/react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { Brain, Workflow } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { initSectionAnimations } from '../utils/smoothScroll';
+import React from 'react';
 
 type Page = 'home' | 'product' | 'brain' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers';
 
@@ -442,7 +441,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                     'Decisions stuck in communication loops',
                     'Work reliant on a few people who "know the system"',
                     'Tools multiplying but clarity disappearing'
-                  ].map((item, index) => (
+                  ].map((item) => (
                     <div key={item} className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-4">
                       <div className="w-2 h-2 rounded-full bg-[#FFB800] mt-2 flex-shrink-0" />
                       <p className="text-[#6B6D71]">{item}</p>
@@ -588,37 +587,42 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {team.map((member, index) => (
-                <motion.div 
-                  key={member.name} 
-                  className="bg-white border border-gray-200 rounded-lg p-6 space-y-4 transition-colors"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  whileHover={{ borderColor: member.color, y: -4 }}
-                >
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: member.color }}>
-                    <span className="text-white text-xl">
-                      {member.name.split(' ').map((n) => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="text-lg text-[#1A1A1A]">{member.name}</h3>
-                    <p className="text-sm" style={{ color: member.color }}>{member.role}</p>
-                  </div>
-                  <p className="text-sm text-[#6B6D71] leading-relaxed">{member.bio}</p>
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-[#6B6D71] hover:text-[#1A1A1A] transition-colors"
+              {team.map((member, index) => {
+                const linkedinUrl = member.linkedin;
+                return (
+                  <motion.div 
+                    key={member.name} 
+                    className="bg-white border border-gray-200 rounded-lg p-6 space-y-4 transition-colors"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    whileHover={{ borderColor: member.color, y: -4 }}
                   >
-                    <Linkedin className="w-4 h-4" />
-                    <span>Connect on LinkedIn</span>
-                  </a>
-                </motion.div>
-              ))}
+                    <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: member.color }}>
+                      <span className="text-white text-xl">
+                        {member.name.split(' ').map((n) => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="text-lg text-[#1A1A1A]">{member.name}</h3>
+                      <p className="text-sm" style={{ color: member.color }}>{member.role}</p>
+                    </div>
+                    <p className="text-sm text-[#6B6D71] leading-relaxed">{member.bio}</p>
+                    <a
+                      key={`linkedin-${member.name}`}
+                      href={linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-[#6B6D71] hover:text-[#1A1A1A] transition-colors"
+                      aria-label={`Connect with ${member.name} on LinkedIn`}
+                    >
+                      <Linkedin className="w-4 h-4" />
+                      <span>Connect on LinkedIn</span>
+                    </a>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </div>
