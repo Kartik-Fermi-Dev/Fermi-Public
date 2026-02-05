@@ -4,6 +4,8 @@ import FermiFooter from './components/fermi/FermiFooter';
 import { StickyDemoButton } from './components/StickyDemoButton';
 import HomePage from './pages/Home';
 import ProductPage from './pages/Product';
+import ProductDemoPage from './pages/ProductDemo';
+import ExploreProductPage from './pages/ExploreProduct';
 import BrainPage from './pages/Brain';
 import BlogPage from './pages/Blog';
 import BlogPostPage from './pages/BlogPost';
@@ -22,7 +24,7 @@ declare global {
   }
 }
 
-type Page = 'home' | 'product' | 'brain' | 'blog' | 'blog-post' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers' | 'sitemap';
+type Page = 'home' | 'product' | 'explore-product' | 'brain' | 'blog' | 'blog-post' | 'about' | 'contact' | 'privacy' | 'terms' | 'careers' | 'sitemap';
 
 export default function App() {
   const getInitialPage = (): Page => {
@@ -35,6 +37,7 @@ export default function App() {
     switch (cleanPath) {
       case '/': return 'home';
       case '/product': return 'product';
+      case '/explore-product': return 'explore-product';
       case '/brain': return 'brain';
       case '/blog': return 'blog';
       case '/about': return 'about';
@@ -168,7 +171,9 @@ export default function App() {
       case 'home':
         return <HomePage onNavigate={navigateTo} />;
       case 'product':
-        return <ProductPage onNavigate={navigateTo} />;
+        return <ProductDemoPage onNavigate={navigateTo} />;
+      case 'explore-product':
+        return <ExploreProductPage />;
       case 'brain':
         return <BrainPage onNavigate={navigateTo} />;
       case 'blog':
@@ -192,19 +197,22 @@ export default function App() {
     }
   };
 
+  // Don't show header/footer/sticky button on product demo page or explore product page
+  const isProductDemo = currentPage === 'product' || currentPage === 'explore-product';
+
   return (
-    <div className="min-h-screen bg-white text-gray-900 w-full m-0 p-0">
-      <FermiHeader currentPage={currentPage} onNavigate={navigateTo} />
-      <main className="w-full m-0 p-0">
+    <div className={`${isProductDemo ? 'fixed inset-0 w-screen h-screen overflow-hidden' : 'min-h-screen'} bg-white text-gray-900 w-full m-0 p-0`}>
+      {!isProductDemo && <FermiHeader currentPage={currentPage} onNavigate={navigateTo} />}
+      <main className={`${isProductDemo ? 'w-full h-full' : 'w-full'} m-0 p-0`}>
         {renderPage()}
       </main>
-      <FermiFooter onNavigate={navigateTo} />
+      {!isProductDemo && <FermiFooter onNavigate={navigateTo} />}
       
-      {/* Sticky Demo Button - appears on all pages */}
-      <StickyDemoButton onNavigate={navigateTo} />
+      {/* Sticky Demo Button - appears on all pages except product demo */}
+      {!isProductDemo && <StickyDemoButton onNavigate={navigateTo} />}
       
-      {/* Page Transition Overlay */}
-      {isTransitioning && (
+      {/* Page Transition Overlay - don't show on product demo */}
+      {isTransitioning && !isProductDemo && (
         <div 
           className="fixed inset-0 bg-white pointer-events-none z-[9999]"
           style={{

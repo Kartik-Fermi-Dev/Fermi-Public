@@ -6,7 +6,7 @@ const ArrowRightIcon = () => (
   </svg>
 );
 
-type Page = 'home' | 'product' | 'brain' | 'about' | 'contact';
+type Page = 'home' | 'product' | 'explore-product' | 'brain' | 'about' | 'contact';
 
 interface StickyDemoButtonProps {
   onNavigate: (page: Page) => void;
@@ -33,15 +33,17 @@ export function StickyDemoButton({ onNavigate }: StickyDemoButtonProps) {
           </button>
 
           {/* Explore Product Button */}
-          <button
-            onClick={() => onNavigate('product')}
+          <a
+            href="/explore-product"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-6 py-3 text-[#87CEEB] hover:bg-[#87CEEB]/10 transition-all flex items-center gap-2 group hover:scale-105 active:scale-95"
           >
             <span className="text-sm font-medium">Explore Product</span>
             <div className="group-hover:translate-x-1 transition-transform">
               <ArrowRightIcon />
             </div>
-          </button>
+          </a>
         </div>
       </div>
     </div>
