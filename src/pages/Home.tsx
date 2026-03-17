@@ -109,13 +109,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button
-              onClick={() => onNavigate('product')}
+              asChild
               size="lg"
               variant="outline"
               className="border border-[#6B6D71]/30 hover:border-[#0A2F51] hover:bg-gray-100 text-[#1A1A1A] rounded-md group text-[16px]"
             >
-              Explore platform
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <a href="https://demo.fermi.dev/" target="_blank" rel="noopener noreferrer">
+                Explore platform
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </a>
             </Button>
           </motion.div>
         </div>

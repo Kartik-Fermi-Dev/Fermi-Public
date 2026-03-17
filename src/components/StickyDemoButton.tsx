@@ -32,16 +32,18 @@ export function StickyDemoButton({ onNavigate }: StickyDemoButtonProps) {
             </div>
           </button>
 
-          {/* Explore Product Button */}
-          <button
-            onClick={() => onNavigate('product')}
+          {/* Explore Product Button — opens demo in new tab */}
+          <a
+            href="https://demo.fermi.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-6 py-3 text-[#87CEEB] hover:bg-[#87CEEB]/10 transition-all flex items-center gap-2 group hover:scale-105 active:scale-95"
           >
             <span className="text-sm font-medium">Explore Product</span>
             <div className="group-hover:translate-x-1 transition-transform">
               <ArrowRightIcon />
             </div>
-          </button>
+          </a>
         </div>
       </div>
     </div>

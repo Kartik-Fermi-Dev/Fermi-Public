@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { SEO } from '../components/SEO';
-import { Button } from '../components/ui/button';
-import { Brain, Workflow, Users, Lock, Activity, Code, ArrowRight, CheckCircle2, Database, Zap, Terminal, Shield, Eye, TrendingUp } from 'lucide-react';
+import { Brain, Workflow, Users, Lock, Activity, Code, CheckCircle2, Database, Zap, Terminal, Shield, Eye, TrendingUp, ExternalLink, Clock, Building2, Truck } from 'lucide-react';
 import { motion } from 'motion/react';
 import NeuralNetwork from '../components/NeuralNetwork';
+import fermiPharmLogo from '../assets/fermiPharmaLogo.svg';
 
 type Page = 'home' | 'product' | 'brain' | 'blog' | 'about' | 'contact';
 
@@ -11,7 +11,7 @@ interface ProductPageProps {
   onNavigate: (page: Page) => void;
 }
 
-export default function ProductPage({ onNavigate }: ProductPageProps) {
+export default function ProductPage({ onNavigate: _onNavigate }: ProductPageProps) {
   const [activeTab, setActiveTab] = useState('onboarding');
   const [isTabsSticky, setIsTabsSticky] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -745,6 +745,156 @@ export default function ProductPage({ onNavigate }: ProductPageProps) {
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+         {/* SECTION — INDUSTRIES */}
+         <section className="bg-[#F5F2ED] py-10 border-t border-gray-200" style={{ paddingBlock: '25px' }} data-scroll-section>
+        <div className="container-custom">
+          <motion.div
+            className="mb-6 text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-[12px] tracking-widest text-[#6B6D71] uppercase mb-2">Industries</p>
+            <h2 className="text-[36px] text-[#1A1A1A] mb-2" style={{ fontSize: '36px' }}>Built for Your Industry</h2>
+            <p className="text-[15px] text-[#6B6D71] max-w-2xl mx-auto leading-relaxed">
+              Fermi adapts to the complexity of regulated, high-stakes industries providing an operational brain tuned to your domain.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-4 max-w-6xl mx-auto items-stretch" style={{ gridTemplateColumns: '5fr 2.5fr' }}>
+
+            {/* FEATURED CARD — Pharma Manufacturing */}
+            <motion.div
+              className="h-full"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 h-full flex flex-col shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-[#87CEEB]/10 to-transparent rounded-bl-full pointer-events-none" />
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4CD964]/15 text-[#1A8C3A] text-[12px] tracking-wide uppercase">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#4CD964] inline-block"></span>
+                      Live Demo Org
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-[#87CEEB]/20 text-[#0A2F51] text-[12px] tracking-wide uppercase">
+                      Pharma Manufacturing
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                      <img src={fermiPharmLogo} alt="Fermi Pharmaceuticals logo" className="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <h3 className="text-[22px] text-[#1A1A1A] leading-tight">Fermi Pharmaceuticals</h3>
+                      <p className="text-[13px] text-[#6B6D71] mt-0.5">A fully configured demo organisation for pharmaceutical manufacturing</p>
+                    </div>
+                  </div>
+                  <p className="text-[14px] text-[#3A3A3A] leading-relaxed mb-3">Fermi Pharmaceuticals is our live demo organisation, pre-loaded with processes, SOPs, and workflows representative of a real pharma manufacturing operation.</p>
+                  <p className="text-[12px] text-[#6B6D71] uppercase tracking-widest mb-2">What you can explore</p>
+                  <div className="flex flex-col gap-2 mb-3">
+                    {[
+                      'Ask questions answered from pharma-specific knowledge',
+                      'Explore batch record & deviation workflows',
+                      'Understand how AI agents handle QC tasks',
+                      'Trace supply chain decisions end-to-end',
+                    ].map((item) => (
+                      <div key={item} className="flex items-start gap-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#4CD964] flex-shrink-0 mt-0.5" />
+                        <span className="text-[13px] text-[#3A3A3A] leading-snug">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 pt-3 mt-3 border-t border-gray-100">
+                  <a
+                    href="https://demo.fermi.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A2F51] text-white rounded-xl text-[13px] hover:bg-[#0D3A66] transition-colors"
+                    style={{ paddingInline: '15px', marginTop: '15px' }}
+                  >
+                    Visit Fermi Pharmaceuticals
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                  <span className="text-[13px] text-[#6B6D71] ml-auto">Free to explore · No sign-up needed</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* RIGHT COLUMN — 2 stacked coming-soon cards */}
+            <div className="flex flex-col gap-4">
+              <motion.div
+                className="flex-1"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <div className="bg-white border border-gray-200 rounded-2xl p-6 h-full flex flex-col justify-between opacity-80 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#A78BFA]/10 to-transparent rounded-bl-full pointer-events-none" />
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#F5F2ED] border border-gray-200 text-[#6B6D71] text-[12px] tracking-wide uppercase" style={{ fontSize: '11px' }}>
+                        <Clock className="w-3 h-3" />
+                        Coming Soon
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#A78BFA]/20 flex items-center justify-center flex-shrink-0">
+                        <Building2 className="w-5 h-5 text-[#A78BFA]" />
+                      </div>
+                      <div>
+                        <h3 className="text-[18px] text-[#1A1A1A] leading-tight">Financial Services</h3>
+                        <p className="text-[12px] text-[#6B6D71] mt-0.5">Demo org in progress</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button disabled className="mt-4 w-full py-2 rounded-xl border border-gray-200 text-[13px] text-[#6B6D71] bg-[#F5F2ED] cursor-not-allowed">
+                    Demo org coming soon
+                  </button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="flex-1"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <div className="bg-white border border-gray-200 rounded-2xl p-6 h-full flex flex-col justify-between opacity-80 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#FFB800]/10 to-transparent rounded-bl-full pointer-events-none" />
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#F5F2ED] border border-gray-200 text-[#6B6D71] text-[12px] tracking-wide uppercase" style={{ fontSize: '11px' }}>
+                        <Clock className="w-3 h-3" />
+                        Coming Soon
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#FFB800]/20 flex items-center justify-center flex-shrink-0">
+                        <Truck className="w-5 h-5 text-[#FFB800]" />
+                      </div>
+                      <div>
+                        <h3 className="text-[18px] text-[#1A1A1A] leading-tight">Logistics & Supply Chain</h3>
+                        <p className="text-[12px] text-[#6B6D71] mt-0.5">Demo org in progress</p>
+                      </div>
+                    </div>
+                  </div>
+                  <button disabled className="mt-4 w-full py-2 rounded-xl border border-gray-200 text-[13px] text-[#6B6D71] bg-[#F5F2ED] cursor-not-allowed">
+                    Demo org coming soon
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
