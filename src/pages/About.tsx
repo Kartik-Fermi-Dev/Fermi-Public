@@ -240,7 +240,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             transition={{ duration: 0.6 }}
           >
             <p className="text-2xl md:text-3xl text-[#1A1A1A] mb-8 leading-relaxed">
-              Fermi is here to bring clarity back
+              Fermi is here to bring clarity back.
             </p>
             <p className="text-lg text-[#6B6D71] leading-relaxed mb-6">
               We're building an operational brain: a system that understands how your business works, orchestrates workflows end-to-end, and enables AI agents to execute tasks with accuracy, context, and control.
