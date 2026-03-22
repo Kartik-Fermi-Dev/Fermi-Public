@@ -1,0 +1,154 @@
+# Netlify Configuration File for Fermi Dev Website
+
+[build]
+  # Build command - clear cache and get fresh platform-specific binaries
+  command = "rm -rf package-lock.json node_modules && NODE_ENV=development npm install && npm run build"
+  
+  # Output directory for the built files
+  publish = "dist"
+  
+  # Functions directory (if needed for serverless functions)
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node version (20 for better compatibility with modern packages)
+  NODE_VERSION = "20"
+
+# Static files - serve directly (before SPA redirect)
+[[redirects]]
+  from = "/.well-known/*"
+  to = "/.well-known/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+
+[[redirects]]
+  from = "/humans.txt"
+  to = "/humans.txt"
+  status = 200
+
+# SPA Routing - Redirect all routes to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Performance and Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security Headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    
+    # Content Security Policy
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://static.cloudflareinsights.com https://*.cloudflareinsights.com https://app.cal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://assets.codepen.io data:; img-src 'self' data: https: http:; media-src 'self' https://*.dropbox.com https://*.dropboxusercontent.com https://www.dropbox.com blob: data:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://region1.google-analytics.com https://static.cloudflareinsights.com https://*.cloudflareinsights.com https://*.unsplash.com https://app.cal.com https://*.dropbox.com https://*.dropboxusercontent.com https://*.supabase.co; frame-src https://app.cal.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+    
+    # Performance Headers
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=UTF-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=UTF-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/humans.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=UTF-8"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/.well-known/*"
+  [headers.values]
+    Content-Type = "text/plain; charset=UTF-8"
+    Cache-Control = "public, max-age=86400"
+
+# Static asset caching
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Service Worker Headers
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=UTF-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=UTF-8"
+    Cache-Control = "public, max-age=3600"
+
+# Plugin Configuration
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  
+  [plugins.inputs]
+    output_path = "reports/lighthouse.html"
+    
+    # Lighthouse performance thresholds - set to realistic achievable levels
+    [plugins.inputs.thresholds]
+      performance = 0.7
+      accessibility = 0.85
+      best-practices = 0.8
+      seo = 0.9
+
+# Prerendering for better SEO (optional - requires Netlify Pro)
+# [[plugins]]
+#   package = "@netlify/plugin-nextjs"
+
+# Build optimization
+[build.processing]
+  skip_processing = false
+  
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
